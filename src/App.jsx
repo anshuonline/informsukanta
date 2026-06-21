@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone, Share2, Info, ShieldAlert } from 'lucide-react';
+import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone, Share2, Info, ShieldAlert, RefreshCw } from 'lucide-react';
 import imageCompression from 'browser-image-compression';
 import { pincodeData } from './pincodeData';
 
@@ -340,7 +340,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <User className="w-4 h-4 text-orange-500" /> সম্পূর্ণ নাম (Full Name)
+                  <User className="w-4 h-4 text-orange-500" /> সম্পূর্ণ নাম (Full Name) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -355,7 +355,7 @@ export default function App() {
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-orange-500" /> ফোন নম্বর (Phone)
+                  <Phone className="w-4 h-4 text-orange-500" /> ফোন নম্বর (Phone) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -374,7 +374,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-orange-500" /> ইমেইল ঠিকানা (Email)
+                  <Mail className="w-4 h-4 text-orange-500" /> ইমেইল ঠিকানা (Email) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -388,7 +388,7 @@ export default function App() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <Hash className="w-4 h-4 text-orange-500" /> পিন কোড (Pin Code)
+                  <Hash className="w-4 h-4 text-orange-500" /> পিন কোড (Pin Code) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -406,7 +406,7 @@ export default function App() {
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <Map className="w-4 h-4 text-orange-500" /> এলাকা নির্বাচন করুন (Select Area)
+                  <Map className="w-4 h-4 text-orange-500" /> এলাকা নির্বাচন করুন (Select Area) <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="locationName"
@@ -429,7 +429,7 @@ export default function App() {
 
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                <HelpCircle className="w-4 h-4 text-orange-500" /> সমস্যার ধরন (Problem Type)
+                <HelpCircle className="w-4 h-4 text-orange-500" /> সমস্যার ধরন (Problem Type) <span className="text-red-500">*</span>
               </label>
               <select
                 name="problemType"
@@ -451,7 +451,7 @@ export default function App() {
 
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-orange-500" /> বিস্তারিত অভিযোগ (Complaint)
+                <FileText className="w-4 h-4 text-orange-500" /> বিস্তারিত অভিযোগ (Complaint) <span className="text-red-500">*</span>
               </label>
               <textarea
                 name="complaint"
@@ -558,8 +558,11 @@ export default function App() {
                 <ShieldAlert className="w-4 h-4 text-orange-500" /> সিকিউরিটি চেক (Security Check) <span className="text-red-500">*</span>
               </label>
               <div className="flex items-center gap-4">
-                <div className="px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-lg text-slate-800 shadow-sm flex-shrink-0">
-                  {captchaNum1} + {captchaNum2} =
+                <div className="px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-lg text-slate-800 shadow-sm flex-shrink-0 flex items-center gap-3">
+                  <span>{captchaNum1} + {captchaNum2} =</span>
+                  <button type="button" onClick={generateCaptcha} className="text-slate-400 hover:text-orange-600 transition-colors" title="ক্যাপচা পরিবর্তন করুন (Reload Captcha)">
+                    <RefreshCw className="w-4 h-4" />
+                  </button>
                 </div>
                 <input
                   type="number"
