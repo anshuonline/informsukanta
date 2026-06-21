@@ -599,20 +599,7 @@ export default function App() {
 
         {/* How it works & Disclaimer Section */}
         <div className="mt-8 space-y-6">
-          {/* How it works */}
-          <div className="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/50">
-            <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <Info className="w-5 h-5 text-orange-600" /> কীভাবে এটি কাজ করে? (প্রযুক্তিগত তথ্য)
-            </h3>
-            <div className="text-sm text-slate-700 space-y-3 leading-relaxed">
-              <p>
-                <strong>১০০% সুরক্ষিত এবং সরাসরি যোগাযোগ:</strong> এই ওয়েবসাইটে কোনো নিজস্ব ডেটাবেস (Database) নেই। অর্থাৎ আপনার দেওয়া কোনো ব্যক্তিগত তথ্য বা অভিযোগ ওয়েবসাইটে সেভ করা হয় না। 
-              </p>
-              <p>
-                আপনি যখনই ফর্মটি পূরণ করে সাবমিট করবেন, তখন প্রযুক্তিগতভাবে সম্পূর্ণ তথ্য (ছবি ও লাইভ লোকেশন সহ) সরাসরি <strong>ইমেইলের মাধ্যমে বিধায়ক সাহেবের কাছে</strong> চলে যায়। এর ফলে আপনার অভিযোগটি সম্পূর্ণ গোপনীয় থাকে এবং দ্রুততম সময়ে সঠিক জায়গায় পৌঁছায়।
-              </p>
-            </div>
-          </div>
+
 
           {/* Disclaimer */}
           <div className="bg-orange-50/90 backdrop-blur-md rounded-2xl p-5 shadow-sm border border-orange-200 text-center">
