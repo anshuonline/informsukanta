@@ -27,6 +27,19 @@ export default function App() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Captcha states
+  const [captchaNum1, setCaptchaNum1] = useState(Math.floor(Math.random() * 10) + 1);
+  const [captchaNum2, setCaptchaNum2] = useState(Math.floor(Math.random() * 10) + 1);
+  const [captchaAnswer, setCaptchaAnswer] = useState('');
+  const [captchaError, setCaptchaError] = useState('');
+
+  const generateCaptcha = () => {
+    setCaptchaNum1(Math.floor(Math.random() * 10) + 1);
+    setCaptchaNum2(Math.floor(Math.random() * 10) + 1);
+    setCaptchaAnswer('');
+    setCaptchaError('');
+  };
+
   const fileInputRef = useRef(null);
 
   const handleShare = async () => {
@@ -164,10 +177,16 @@ export default function App() {
       return;
     }
     
+    if (parseInt(captchaAnswer) !== (captchaNum1 + captchaNum2)) {
+      setCaptchaError('ক্যাপচা উত্তরটি ভুল হয়েছে। (Incorrect captcha answer)');
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus(null);
     setErrorMessage('');
     setLocationRequiredError(false);
+    setCaptchaError('');
 
     const form = new FormData();
     form.append('access_key', import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_ACCESS_KEY_HERE');
@@ -232,6 +251,7 @@ export default function App() {
         setLocation(null);
         setImages([]);
         setAvailableLocations([]);
+        generateCaptcha();
       } else {
         setSubmitStatus('error');
         setErrorMessage(data.message || 'API request failed');
@@ -530,6 +550,27 @@ export default function App() {
                   ))}
                 </div>
               )}
+            </div>
+
+            {/* Math Captcha */}
+            <div className="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-200">
+              <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-orange-500" /> সিকিউরিটি চেক (Security Check) <span className="text-red-500">*</span>
+              </label>
+              <div className="flex items-center gap-4">
+                <div className="px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-lg text-slate-800 shadow-sm flex-shrink-0">
+                  {captchaNum1} + {captchaNum2} =
+                </div>
+                <input
+                  type="number"
+                  required
+                  value={captchaAnswer}
+                  onChange={(e) => setCaptchaAnswer(e.target.value)}
+                  placeholder="উত্তর লিখুন"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none bg-white/50"
+                />
+              </div>
+              {captchaError && <p className="text-xs text-red-500 font-medium">{captchaError}</p>}
             </div>
 
             <div className="pt-4">
