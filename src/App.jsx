@@ -621,6 +621,15 @@ export default function App() {
               এটি বিধায়ক সুকান্ত বিশ্বাসের কোনো <strong>অফিসিয়াল ওয়েবসাইট নয়</strong>। এটি একটি স্বাধীন কমিউনিটি উদ্যোগ। সাধারণ মানুষ যাতে তাদের এলাকার সমস্যাগুলি সহজে ও দ্রুত বিধায়কের কাছে পৌঁছে দিতে পারে, তার জন্যই এই পোর্টালটি তৈরি করা হয়েছে।
             </p>
           </div>
+          
+          {/* Visitor Counter */}
+          <div className="flex justify-center pt-2 pb-4">
+            <img 
+              src="https://api.visitorbadge.io/api/visitors?path=informsukanta_portal&label=Total%20Visitors&labelColor=%23f8fafc&countColor=%23ea580c&style=flat" 
+              alt="Total Visitors" 
+              className="shadow-sm rounded opacity-90 hover:opacity-100 transition-opacity"
+            />
+          </div>
         </div>
 
       </div>
