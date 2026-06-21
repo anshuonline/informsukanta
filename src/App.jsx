@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle } from 'lucide-react';
+import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone } from 'lucide-react';
 import { pincodeData } from './pincodeData';
 
 export default function App() {
   const [formData, setFormData] = useState({
     name: '',
+    phone: '',
     email: '',
     pincode: '',
     locationName: '',
@@ -106,6 +107,7 @@ export default function App() {
     form.append('replyto', formData.email);
     
     form.append('নাম (Name)', formData.name);
+    form.append('ফোন নম্বর (Phone)', formData.phone);
     form.append('ইমেইল (Email)', formData.email);
     form.append('পিন কোড (Pincode)', formData.pincode);
     if (formData.locationName) {
@@ -135,7 +137,7 @@ export default function App() {
       const data = await response.json();
       if (data.success) {
         setSubmitStatus('success');
-        setFormData({ name: '', email: '', pincode: '', locationName: '', problemType: '', complaint: '' });
+        setFormData({ name: '', phone: '', email: '', pincode: '', locationName: '', problemType: '', complaint: '' });
         setLocation(null);
         setImages([]);
         setAvailableLocations([]);
@@ -203,6 +205,25 @@ export default function App() {
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-orange-500" /> ফোন নম্বর (Phone)
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  maxLength="10"
+                  pattern="[0-9]{10}"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="যেমন: 9876543210"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none bg-white/50"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                   <Mail className="w-4 h-4 text-orange-500" /> ইমেইল ঠিকানা (Email)
                 </label>
                 <input
@@ -215,9 +236,6 @@ export default function App() {
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none bg-white/50"
                 />
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                   <Hash className="w-4 h-4 text-orange-500" /> পিন কোড (Pin Code)
