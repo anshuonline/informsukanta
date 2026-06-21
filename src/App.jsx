@@ -18,6 +18,7 @@ export default function App() {
   const [location, setLocation] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState('');
+  const [locationRequiredError, setLocationRequiredError] = useState(false);
   
   const [images, setImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -96,6 +97,7 @@ export default function App() {
               lng: longitude,
               address: data.display_name,
             });
+            setLocationRequiredError(false);
           } catch (error) {
             setLocationError('ঠিকানা পেতে সমস্যা হয়েছে। (Failed to fetch address details.)');
           } finally {
@@ -115,8 +117,15 @@ export default function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!location) {
+      setLocationRequiredError(true);
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus(null);
+    setLocationRequiredError(false);
 
     const form = new FormData();
     form.append('access_key', import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_ACCESS_KEY_HERE');
@@ -342,11 +351,11 @@ export default function App() {
               ></textarea>
             </div>
 
-            <div className="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-200">
+            <div className="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-200 relative">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h4 className="font-semibold text-slate-800 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-orange-500" /> লাইভ অবস্থান (Live Location)
+                    <MapPin className="w-5 h-5 text-orange-500" /> লাইভ অবস্থান (Live Location) <span className="text-red-500">*</span>
                   </h4>
                   <p className="text-xs text-slate-500 mt-1">সমস্যা চিহ্নিত করতে আপনার বর্তমান অবস্থান প্রদান করুন।</p>
                 </div>
@@ -354,7 +363,7 @@ export default function App() {
                   type="button"
                   onClick={fetchLocation}
                   disabled={locationLoading}
-                  className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                  className={`px-4 py-2 bg-white border ${locationRequiredError ? 'border-red-500 text-red-600' : 'border-slate-300 text-slate-700'} rounded-lg text-sm font-medium hover:bg-slate-50 hover:text-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50`}
                 >
                   {locationLoading ? (
                     <span className="animate-pulse">খোঁজা হচ্ছে...</span>
@@ -365,6 +374,11 @@ export default function App() {
               </div>
               
               {locationError && <p className="text-xs text-red-500">{locationError}</p>}
+              {locationRequiredError && !location && (
+                <p className="text-sm font-bold text-red-600 bg-red-50 p-2 rounded border border-red-200 mt-2">
+                  <AlertCircle className="w-4 h-4 inline mr-1 -mt-0.5" /> অভিযোগ জমা দেওয়ার আগে আপনার অবস্থান প্রদান করা বাধ্যতামূলক।
+                </p>
+              )}
               
               {location && (
                 <div className="mt-3 p-3 bg-orange-50 rounded-lg border border-orange-100 text-sm text-slate-700">
