@@ -150,22 +150,19 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-ambient flex items-center justify-center p-4 sm:p-6 font-sans text-slate-800">
+    <div className="min-h-screen bg-ambient flex items-center justify-center p-4 sm:p-8 font-sans text-slate-800">
       <div className="w-full max-w-2xl">
-        <div className="text-center mb-8 space-y-2">
-          <div className="inline-block p-3 rounded-full bg-orange-100 mb-2 shadow-sm border border-orange-200">
-            <AlertCircle className="w-8 h-8 text-orange-600" />
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
-            সুকান্তকে <span className="text-orange-600">জানান</span>
-          </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-md mx-auto">
-            আপনার সমস্যার কথা সরাসরি জানান। আমরা আপনার অভিযোগ শুনতে এবং দ্রুত সমাধান করতে প্রস্তুত।
-          </p>
-        </div>
-
         <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl">
-          <div className="bg-orange-600 h-2 w-full"></div>
+          {/* Banner Image */}
+          <div className="relative w-full bg-white">
+            <img 
+              src="/banner.jpg" 
+              alt="Inform Sukanta Banner" 
+              className="w-full h-auto object-cover"
+            />
+            {/* Saffron accent line */}
+            <div className="h-1.5 w-full bg-gradient-to-r from-orange-500 via-orange-600 to-green-600"></div>
+          </div>
           
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
             
