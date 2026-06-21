@@ -23,6 +23,7 @@ export default function App() {
   const [images, setImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const fileInputRef = useRef(null);
 
@@ -125,6 +126,7 @@ export default function App() {
     
     setIsSubmitting(true);
     setSubmitStatus(null);
+    setErrorMessage('');
     setLocationRequiredError(false);
 
     const form = new FormData();
@@ -164,15 +166,18 @@ export default function App() {
       const data = await response.json();
       if (data.success) {
         setSubmitStatus('success');
+        setErrorMessage('');
         setFormData({ name: '', phone: '', email: '', pincode: '', locationName: '', problemType: '', complaint: '' });
         setLocation(null);
         setImages([]);
         setAvailableLocations([]);
       } else {
         setSubmitStatus('error');
+        setErrorMessage(data.message || 'API request failed');
       }
     } catch (error) {
       setSubmitStatus('error');
+      setErrorMessage(error.message || 'Network error occurred');
     } finally {
       setIsSubmitting(false);
     }
@@ -220,6 +225,11 @@ export default function App() {
                 <div>
                   <h4 className="font-semibold">জমা দেওয়া ব্যর্থ হয়েছে</h4>
                   <p className="text-sm mt-1">আপনার অভিযোগ পাঠানোর সময় একটি ত্রুটি হয়েছে৷ অনুগ্রহ করে পরে আবার চেষ্টা করুন৷</p>
+                  {errorMessage && (
+                    <p className="text-xs mt-2 p-2 bg-red-100 rounded border border-red-200 font-mono break-all">
+                      Debug: {errorMessage}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
