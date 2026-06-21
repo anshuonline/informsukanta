@@ -135,21 +135,21 @@ export default function App() {
     form.append('from_name', 'সুকান্তকে জানান পোর্টাল');
     form.append('replyto', formData.email);
     
-    form.append('নাম (Name)', formData.name);
-    form.append('ফোন নম্বর (Phone)', formData.phone);
-    form.append('ইমেইল (Email)', formData.email);
-    form.append('পিন কোড (Pincode)', formData.pincode);
+    form.append('Name', formData.name);
+    form.append('Phone', formData.phone);
+    form.append('Email', formData.email);
+    form.append('Pincode', formData.pincode);
     if (formData.locationName) {
-      form.append('এলাকা (Area)', formData.locationName);
+      form.append('Area', formData.locationName);
     }
     if (formData.problemType) {
-      form.append('সমস্যার ধরন (Problem Type)', formData.problemType);
+      form.append('Problem_Type', formData.problemType);
     }
-    form.append('অভিযোগ (Complaint)', formData.complaint);
+    form.append('Complaint', formData.complaint);
     
     if (location) {
-      form.append('অবস্থান_ঠিকানা (Location Address)', location.address);
-      form.append('গুগল_ম্যাপস_লিঙ্ক (Google Maps Link)', `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`);
+      form.append('Location_Address', location.address);
+      form.append('Google_Maps_Link', `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`);
     }
 
     // Add multiple images (Note: Web3Forms free tier might restrict multiple attachments, 
@@ -470,22 +470,16 @@ export default function App() {
           {/* How it works */}
           <div className="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/50">
             <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <Info className="w-5 h-5 text-orange-600" /> কীভাবে এটি কাজ করে?
+              <Info className="w-5 h-5 text-orange-600" /> কীভাবে এটি কাজ করে? (প্রযুক্তিগত তথ্য)
             </h3>
-            <ul className="space-y-3 text-sm text-slate-700">
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">১</div>
-                <p>আপনার নাম, ফোন নম্বর এবং সঠিক <strong>পিন কোড</strong> দিয়ে আপনার এলাকা নির্বাচন করুন।</p>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">২</div>
-                <p>আপনার সমস্যার বিস্তারিত বিবরণ দিন। প্রমাণস্বরূপ <strong>লাইভ অবস্থান (GPS)</strong> এবং <strong>ছবি</strong> আপলোড করুন।</p>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">৩</div>
-                <p>ফর্মটি জমা দিলে আপনার অভিযোগ সরাসরি ইমেইলের মাধ্যমে সংশ্লিষ্ট কর্তৃপক্ষের নজরে আনা হবে, যাতে দ্রুত সমাধান করা যায়।</p>
-              </li>
-            </ul>
+            <div className="text-sm text-slate-700 space-y-3 leading-relaxed">
+              <p>
+                <strong>১০০% সুরক্ষিত এবং সরাসরি যোগাযোগ:</strong> এই ওয়েবসাইটে কোনো নিজস্ব ডেটাবেস (Database) নেই। অর্থাৎ আপনার দেওয়া কোনো ব্যক্তিগত তথ্য বা অভিযোগ ওয়েবসাইটে সেভ করা হয় না। 
+              </p>
+              <p>
+                আপনি যখনই ফর্মটি পূরণ করে সাবমিট করবেন, তখন প্রযুক্তিগতভাবে সম্পূর্ণ তথ্য (ছবি ও লাইভ লোকেশন সহ) সরাসরি <strong>ইমেইলের মাধ্যমে বিধায়ক সাহেবের কাছে</strong> চলে যায়। এর ফলে আপনার অভিযোগটি সম্পূর্ণ গোপনীয় থাকে এবং দ্রুততম সময়ে সঠিক জায়গায় পৌঁছায়।
+              </p>
+            </div>
           </div>
 
           {/* Disclaimer */}
