@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone } from 'lucide-react';
+import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone, Share2 } from 'lucide-react';
 import { pincodeData } from './pincodeData';
 
 export default function App() {
@@ -24,6 +24,24 @@ export default function App() {
   const [submitStatus, setSubmitStatus] = useState(null);
 
   const fileInputRef = useRef(null);
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'সুকান্তকে জানান | আপনার সমস্যা, আমাদের দায়িত্ব',
+          text: 'আপনার সমস্যার কথা সরাসরি জানান। আমরা আপনার অভিযোগ শুনতে এবং দ্রুত সমাধান করতে প্রস্তুত।',
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log('Error sharing', error);
+      }
+    } else {
+      // Fallback
+      navigator.clipboard.writeText(window.location.href);
+      alert('লিঙ্ক কপি করা হয়েছে! (Link copied to clipboard)');
+    }
+  };
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -154,14 +172,24 @@ export default function App() {
   return (
     <div className="min-h-screen bg-ambient flex items-center justify-center p-4 sm:p-8 font-sans text-slate-800">
       <div className="w-full max-w-2xl">
-        <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl">
+        <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl relative">
           {/* Banner Image */}
-          <div className="relative w-full bg-white">
+          <div className="relative w-full bg-white group">
             <img 
               src="/banner.jpg" 
               alt="Inform Sukanta Banner" 
               className="w-full h-auto object-cover"
             />
+            {/* Share Button Overlay */}
+            <button
+              type="button"
+              onClick={handleShare}
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white/80 backdrop-blur-md hover:bg-white text-slate-800 p-2 sm:p-2.5 rounded-full shadow-lg border border-white/50 transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95"
+            >
+              <Share2 className="w-5 h-5 text-orange-600" />
+              <span className="text-sm font-bold hidden sm:block pr-1 text-orange-700">শেয়ার করুন</span>
+            </button>
+            
             {/* Saffron accent line */}
             <div className="h-1.5 w-full bg-gradient-to-r from-orange-500 via-orange-600 to-green-600"></div>
           </div>
