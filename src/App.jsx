@@ -223,6 +223,37 @@ export default function App() {
     }
   };
 
+  if (submitStatus === 'success') {
+    return (
+      <div className="min-h-screen bg-ambient flex items-center justify-center p-4 sm:p-8 font-sans text-slate-800">
+        <div className="w-full max-w-md">
+          <div className="glass-panel rounded-3xl overflow-hidden shadow-2xl p-8 sm:p-10 text-center bg-white/90 backdrop-blur-xl border border-white/50 relative">
+            {/* Confetti or decorative background could go here */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-400 to-green-600"></div>
+            
+            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner ring-4 ring-green-50">
+              <CheckCircle2 className="w-12 h-12 text-green-600" />
+            </div>
+            
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-3">ধন্যবাদ!</h2>
+            <h3 className="text-lg font-bold text-green-700 mb-4">আপনার অভিযোগ সফলভাবে জমা হয়েছে।</h3>
+            
+            <p className="text-slate-600 mb-8 leading-relaxed text-sm">
+              আমাদের জানানোর জন্য অসংখ্য ধন্যবাদ। আমরা আপনার সমস্যাটি গুরুত্ব সহকারে খতিয়ে দেখব এবং দ্রুত সংশ্লিষ্ট কর্তৃপক্ষের মাধ্যমে সমাধানের ব্যবস্থা করব।
+            </p>
+            
+            <button
+              onClick={() => setSubmitStatus(null)}
+              className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5"
+            >
+              আরেকটি অভিযোগ জানান
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-ambient flex items-center justify-center p-4 sm:p-8 font-sans text-slate-800">
       <div className="w-full max-w-2xl">
@@ -250,15 +281,6 @@ export default function App() {
           
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
             
-            {submitStatus === 'success' && (
-              <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg flex items-start space-x-3">
-                <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold">অভিযোগ সফলভাবে জমা হয়েছে!</h4>
-                  <p className="text-sm mt-1">আমাদের জানানোর জন্য ধন্যবাদ। আমরা অবিলম্বে এই বিষয়টি খতিয়ে দেখব।</p>
-                </div>
-              </div>
-            )}
             {submitStatus === 'error' && (
               <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex items-start space-x-3">
                 <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
