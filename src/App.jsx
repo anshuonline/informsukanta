@@ -212,9 +212,11 @@ export default function App() {
         }
       }
 
-      // 2. Append image URLs to Web3Forms as text
+      // 2. Append image URLs to Web3Forms as separate text fields
       if (uploadedImageUrls.length > 0) {
-        form.append('Photo_Links', uploadedImageUrls.join('\\n'));
+        uploadedImageUrls.forEach((url, index) => {
+          form.append(`Photo_Link_${index + 1}`, url);
+        });
       }
 
       // 3. Submit to Web3Forms
