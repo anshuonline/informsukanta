@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone, Share2 } from 'lucide-react';
+import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone, Share2, Info, ShieldAlert } from 'lucide-react';
 import { pincodeData } from './pincodeData';
 
 export default function App() {
@@ -464,6 +464,42 @@ export default function App() {
             </div>
           </form>
         </div>
+
+        {/* How it works & Disclaimer Section */}
+        <div className="mt-8 space-y-6">
+          {/* How it works */}
+          <div className="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/50">
+            <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <Info className="w-5 h-5 text-orange-600" /> কীভাবে এটি কাজ করে?
+            </h3>
+            <ul className="space-y-3 text-sm text-slate-700">
+              <li className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">১</div>
+                <p>আপনার নাম, ফোন নম্বর এবং সঠিক <strong>পিন কোড</strong> দিয়ে আপনার এলাকা নির্বাচন করুন।</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">২</div>
+                <p>আপনার সমস্যার বিস্তারিত বিবরণ দিন। প্রমাণস্বরূপ <strong>লাইভ অবস্থান (GPS)</strong> এবং <strong>ছবি</strong> আপলোড করুন।</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold">৩</div>
+                <p>ফর্মটি জমা দিলে আপনার অভিযোগ সরাসরি ইমেইলের মাধ্যমে সংশ্লিষ্ট কর্তৃপক্ষের নজরে আনা হবে, যাতে দ্রুত সমাধান করা যায়।</p>
+              </li>
+            </ul>
+          </div>
+
+          {/* Disclaimer */}
+          <div className="bg-orange-50/90 backdrop-blur-md rounded-2xl p-5 shadow-sm border border-orange-200 text-center">
+            <div className="flex justify-center mb-2">
+              <ShieldAlert className="w-6 h-6 text-orange-600" />
+            </div>
+            <h4 className="text-sm font-bold text-orange-800 mb-2">ঘোষণাপত্র (Disclaimer)</h4>
+            <p className="text-xs text-slate-700 leading-relaxed max-w-lg mx-auto font-medium">
+              এটি বিধায়ক সুকান্ত বিশ্বাসের কোনো <strong>অফিসিয়াল ওয়েবসাইট নয়</strong>। এটি একটি স্বাধীন কমিউনিটি উদ্যোগ। সাধারণ মানুষ যাতে তাদের এলাকার সমস্যাগুলি সহজে ও দ্রুত বিধায়কের কাছে পৌঁছে দিতে পারে, তার জন্যই এই পোর্টালটি তৈরি করা হয়েছে।
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   );
