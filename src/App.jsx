@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { MapPin, Camera, Image as ImageIcon, Send, AlertCircle, CheckCircle2, User, Mail, Hash, FileText, Map, HelpCircle, Phone, Share2, Info, ShieldAlert } from 'lucide-react';
+import imageCompression from 'browser-image-compression';
 import { pincodeData } from './pincodeData';
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
   const [locationRequiredError, setLocationRequiredError] = useState(false);
   
   const [images, setImages] = useState([]);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -70,13 +72,51 @@ export default function App() {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
-    const newImages = files.map(file => ({
-      file,
-      preview: URL.createObjectURL(file)
-    }));
-    setImages(prev => [...prev, ...newImages]);
+    if (files.length === 0) return;
+
+    if (images.length + files.length > 5) {
+      alert('আপনি সর্বাধিক ৫ টি ছবি আপলোড করতে পারবেন। (You can upload a maximum of 5 photos.)');
+    }
+    
+    const allowedFiles = files.slice(0, 5 - images.length);
+    if (allowedFiles.length === 0) return;
+
+    setIsCompressing(true);
+
+    const options = {
+      maxSizeMB: 1, // Max file size in MB
+      maxWidthOrHeight: 1280, // Max width/height in pixels
+      useWebWorker: true,
+    };
+
+    try {
+      const compressedFilesPromises = allowedFiles.map(async (file) => {
+        try {
+          const compressedFile = await imageCompression(file, options);
+          return {
+            file: compressedFile,
+            preview: URL.createObjectURL(compressedFile)
+          };
+        } catch (error) {
+          console.error("Error compressing image:", error);
+          // Fallback to original if compression fails
+          return {
+            file,
+            preview: URL.createObjectURL(file)
+          };
+        }
+      });
+
+      const newImages = await Promise.all(compressedFilesPromises);
+      setImages(prev => [...prev, ...newImages]);
+    } catch (error) {
+      console.error("Compression process failed:", error);
+    } finally {
+      setIsCompressing(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
 
   const removeImage = (index) => {
@@ -402,16 +442,21 @@ export default function App() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h4 className="font-semibold text-slate-800 flex items-center gap-2">
-                    <Camera className="w-5 h-5 text-orange-500" /> একাধিক ছবির প্রমাণ (Multiple Photos)
+                    <Camera className="w-5 h-5 text-orange-500" /> একাধিক ছবির প্রমাণ
                   </h4>
-                  <p className="text-xs text-slate-500 mt-1">সমস্যার একাধিক ছবি আপলোড করতে পারেন।</p>
+                  <p className="text-xs text-slate-500 mt-1">সর্বোচ্চ ৫ টি ছবি আপলোড করতে পারবেন।</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-orange-600 transition-colors flex items-center justify-center gap-2"
+                  disabled={images.length >= 5 || isCompressing}
+                  className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <ImageIcon className="w-4 h-4" /> ছবি নির্বাচন করুন
+                  {isCompressing ? (
+                    <span className="animate-pulse">প্রসেসিং...</span>
+                  ) : (
+                    <><ImageIcon className="w-4 h-4" /> ছবি নির্বাচন করুন ({images.length}/5)</>
+                  )}
                 </button>
                 <input
                   type="file"
