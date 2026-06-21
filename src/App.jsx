@@ -192,13 +192,32 @@ export default function App() {
       form.append('Google_Maps_Link', `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`);
     }
 
-    // Add multiple images (Note: Web3Forms free tier might restrict multiple attachments, 
-    // but we will send them as attachment1, attachment2, etc.)
-    images.forEach((img, index) => {
-      form.append(`attachment_${index + 1}`, img.file);
-    });
-
+    // 1. Upload images to ImgBB first to bypass Web3Forms attachment limits
+    const uploadedImageUrls = [];
     try {
+      if (images.length > 0) {
+        for (let i = 0; i < images.length; i++) {
+          const imgFile = images[i].file;
+          const imgData = new FormData();
+          imgData.append('image', imgFile);
+          
+          const imgResponse = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY || 'efa7e6a7fb5f364f78fc5e3b3d4d6785'}`, {
+            method: 'POST',
+            body: imgData,
+          });
+          const imgResult = await imgResponse.json();
+          if (imgResult.success) {
+            uploadedImageUrls.push(imgResult.data.url);
+          }
+        }
+      }
+
+      // 2. Append image URLs to Web3Forms as text
+      if (uploadedImageUrls.length > 0) {
+        form.append('Photo_Links', uploadedImageUrls.join('\\n'));
+      }
+
+      // 3. Submit to Web3Forms
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: form
